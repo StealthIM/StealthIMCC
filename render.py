@@ -97,18 +97,12 @@ def process_markdown(markdown: str, screen_w: int):
             quote_mode = 0
             quote_str = ""
             for i in l:
-                if (ignore_mode == 2):
-                    if (i == "\\"):
-                        ignore_mode = 3
+                if (i == "\\"):
+                    ignore_mode = 1
+                    continue
+                elif (ignore_mode == 1):
                     result += i
                     ignore_mode = 0
-                    continue
-                elif (ignore_mode == 3):
-                    ignore_mode = 0
-                    continue
-                elif (i == "\\"):
-                    ignore_mode += 1
-                    continue
                 else:
                     ignore_mode = 0
                 if (i == "`"):
@@ -129,47 +123,6 @@ def process_markdown(markdown: str, screen_w: int):
                 if (inlinecode_mode):
                     result += i
                     continue
-                if (i == "*"):
-                    star_cnt += 1
-                    continue
-                elif (i == "_"):
-                    star_cnt += 1
-                    continue
-                else:
-                    if (star_cnt == 3):
-                        bold_mode = 1-bold_mode
-                        italic_mode = 1-italic_mode
-                        star_cnt = 0
-                        if (bold_mode):
-                            result += "\033[1m"
-                        else:
-                            result += "\033[22m"
-                        if (italic_mode):
-                            result += "\033[3m"
-                        else:
-                            result += "\033[23m"
-                    elif (star_cnt == 2):
-                        bold_mode = 1-bold_mode
-                        star_cnt = 0
-                        if (bold_mode):
-                            result += "\033[1m"
-                        else:
-                            result += "\033[22m"
-                        if (italic_mode):
-                            result += "\033[3m"
-                        else:
-                            result += "\033[23m"
-                    elif (star_cnt == 1):
-                        italic_mode = 1-italic_mode
-                        star_cnt = 0
-                        if (bold_mode):
-                            result += "\033[1m"
-                        else:
-                            result += "\033[22m"
-                        if (italic_mode):
-                            result += "\033[3m"
-                        else:
-                            result += "\033[23m"
                 if (img_mode > 0):
                     if (img_mode == 1 and i != "["):
                         img_mode = 0
@@ -275,6 +228,48 @@ def process_markdown(markdown: str, screen_w: int):
                     elif (link_mode == 3):
                         link_str += i
                         continue
+
+                if (i == "*"):
+                    star_cnt += 1
+                    continue
+                elif (i == "_"):
+                    star_cnt += 1
+                    continue
+                else:
+                    if (star_cnt == 3):
+                        bold_mode = 1-bold_mode
+                        italic_mode = 1-italic_mode
+                        star_cnt = 0
+                        if (bold_mode):
+                            result += "\033[1m"
+                        else:
+                            result += "\033[22m"
+                        if (italic_mode):
+                            result += "\033[3m"
+                        else:
+                            result += "\033[23m"
+                    elif (star_cnt == 2):
+                        bold_mode = 1-bold_mode
+                        star_cnt = 0
+                        if (bold_mode):
+                            result += "\033[1m"
+                        else:
+                            result += "\033[22m"
+                        if (italic_mode):
+                            result += "\033[3m"
+                        else:
+                            result += "\033[23m"
+                    elif (star_cnt == 1):
+                        italic_mode = 1-italic_mode
+                        star_cnt = 0
+                        if (bold_mode):
+                            result += "\033[1m"
+                        else:
+                            result += "\033[22m"
+                        if (italic_mode):
+                            result += "\033[3m"
+                        else:
+                            result += "\033[23m"
 
                 result += i
         result += endline_str

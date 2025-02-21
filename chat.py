@@ -5,6 +5,7 @@ import threading
 import render
 import platform
 import weakrefdict
+import openimg
 from char_calc import char_width, char_width_b
 from getchar import get_char, enable_base_mode, disable_base_mode
 try:
@@ -697,6 +698,9 @@ ID：\"{msg_choose_obj["link"]}\"\r"""
                                 break
                             elif (msg_choose_obj["type"] == "link"):
                                 webbrowser.open(msg_choose_obj["link"])
+                                break
+                            elif (msg_choose_obj["type"] == "img"):
+                                openimg.open_img(msg_choose_obj["link"])
                     elif (read_chr == b"r"):
                         if (msgs[choose_id_lst[read_chr_int]]["id"] != -1):
                             for i in f"@[{msgs[choose_id_lst[read_chr_int]]['msg'].lstrip(" \033[0m\n\r#>`")[:20].replace("\n", "")}]({msgs[choose_id_lst[read_chr_int]]['id']})":
@@ -759,6 +763,8 @@ ID：\"{msg_choose_obj["link"]}\"\r"""
                         elif (read_chr == b"\x7f"):
                             if (len(img_input_str) > 0):
                                 img_input_str = img_input_str[:-1]
+                        elif (read_chr == b"'" or read_chr == b'"'):
+                            pass
                         else:
                             chr_cache += read_chr
                             try:
@@ -816,4 +822,4 @@ def start():
             refresh(True)
             time.sleep(0.1)
     finally:
-        disable_base_mode()
+        pass
