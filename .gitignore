@@ -1,0 +1,5 @@
+.stimcli
+**/__pycache__
+*.log
+document.md
+mock.py
