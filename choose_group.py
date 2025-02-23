@@ -6,6 +6,7 @@ import threading
 import time
 import chat
 import settings
+import groupinfo
 
 
 def choose_group():
@@ -16,6 +17,7 @@ def choose_group():
     offset_block = 0
     start_page = 0
     msg_info = ""
+    start_ginfo = 0
 
     def flush():
         nonlocal offset_block, w, h, msg_info
@@ -52,7 +54,7 @@ def choose_group():
 
     def input():
         nonlocal exit_flag
-        nonlocal offset_block, group_lst, msg_info, start_page
+        nonlocal offset_block, group_lst, msg_info, start_page, start_ginfo
         while 1:
             ch = get_char()
             if ch == b'\x1b':
@@ -109,6 +111,15 @@ def choose_group():
                     elif ch == b'x':
                         msg_info = ""
                         break
+                    elif (ch in (b'1', b'2', b'3', b'4', b'5', b'6', b'7', b'8', b'9')):
+                        rel_id = max(0, offset_block) + int(ch)-1
+                        if rel_id > len(group_lst):
+                            continue
+                        gid = group_lst[rel_id]["id"]
+                        start_ginfo = gid
+                        start_page = 3
+                        msg_info = ""
+                        return
                 msg_info = ""
 
     threading.Thread(target=input).start()
@@ -121,6 +132,10 @@ def choose_group():
             start_page = 0
         elif (start_page == 2):
             settings.start()
+            threading.Thread(target=input).start()
+            start_page = 0
+        elif (start_page == 3):
+            groupinfo.run(start_ginfo)
             threading.Thread(target=input).start()
             start_page = 0
         time.sleep(0.1)

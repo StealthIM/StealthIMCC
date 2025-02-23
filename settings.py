@@ -1,4 +1,3 @@
-import unicodedata
 import sys
 import shutil
 from getchar import get_char
@@ -7,16 +6,14 @@ import threading
 import account
 import db
 import network
+from textcalc import wrap
+
 
 w = 0
 h = 0
 now_tab = 0
 exit_flag = True
 choose_cfg = 0
-
-
-def calc_len(s: str):
-    return sum(1 for c in s if unicodedata.east_asian_width(c) in 'FWA')
 
 
 leftbar_lst = ["关于", "系统", "上传", "帐号"]
@@ -85,48 +82,6 @@ def save():
         else:
             v_tmp = v
         db.set_info("set_"+k, v_tmp)
-
-
-def wrap(text, max_length):
-    result = []
-    current_line = ""
-    current_length = 0
-
-    # 找到所有的ANSI转义序列及其位置
-    ansi_mode = False
-    ansi_text = ""
-
-    for i, char in enumerate(text):
-        if (char == '\n'):
-            result.append(current_line)
-            current_line = ""
-            current_length = 0
-            continue
-        if (char == '\033'):
-            ansi_mode = True
-            ansi_text = char
-            continue
-        elif ansi_mode:
-            ansi_text += char
-            if not (char.isdigit() or char in [';', '?', '!', '[', ']']):
-                ansi_mode = False
-                current_line += ansi_text
-            continue
-
-        char_width = 2 if unicodedata.east_asian_width(char) in 'WF' else 1
-
-        if current_length + char_width > max_length:
-            result.append(current_line)
-            current_line = char
-            current_length = char_width
-        else:
-            current_line += char
-            current_length += char_width
-
-    if current_line:
-        result.append(current_line)
-
-    return "\n".join(result)
 
 
 def input():

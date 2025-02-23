@@ -13,6 +13,7 @@ try:
 except ImportError:
     pass
 import upload_modules
+import groupinfo
 
 os_name = platform.system()
 
@@ -577,8 +578,8 @@ def input_th():
                 menustr = """> 菜单\r
 [ESC*2] 退出      [b] 回到底部\r
 [r]     清空内容  [f] 全屏输入\r
-[Any]   关闭      [i] 群聊信息\r
-[1-9]   选择信息  [a] 插入图片\r"""
+[Any]   关闭      [a] 插入图片\r
+[1-9]   选择信息  \r"""
                 refresh()
                 read_chr = get_char()
                 if (read_chr == b'q'):

@@ -259,3 +259,96 @@ def remove_account():
 def change_nickname(nickname: str):
     # TODO: 网络请求
     return ""
+
+
+def get_group_info(group_id: str):
+    ######## Mock data ########
+    return {
+        "name": "group1",
+        "id": "114514",
+        "last_msg": "the_last_msg",
+        "users": [
+            {
+                "nickname": "cxykevin",
+                "username": "cxykevin",
+                "id": "1",
+                "type": "owner"
+            },
+            {
+                "nickname": "cu2",
+                "username": "user2",
+                "id": "1919810",
+                "type": "manager"
+            },
+            {
+                "nickname": "u3",
+                "username": "user3",
+                "id": "1919811",
+                "type": "member"
+            },
+            {
+                "nickname": "u3",
+                "username": "user3",
+                "id": "1919811",
+                "type": "member"
+            },
+            {
+                "nickname": "u3",
+                "username": "user3",
+                "id": "1919811",
+                "type": "member"
+            },
+            {
+                "nickname": "u3",
+                "username": "user3",
+                "id": "1919811",
+                "type": "member"
+            },
+            {
+                "nickname": "u3",
+                "username": "user3",
+                "id": "1919811",
+                "type": "member"
+            },
+            {
+                "nickname": "u3",
+                "username": "user3",
+                "id": "1919811",
+                "type": "member"
+            },
+            {
+                "nickname": "u3",
+                "username": "user3",
+                "id": "1919811",
+                "type": "member"
+            },
+            {
+                "nickname": "u3",
+                "username": "user3",
+                "id": "1919811",
+                "type": "member"
+            },
+            {
+                "nickname": "u3",
+                "username": "user3",
+                "id": "1919811",
+                "type": "member"
+            },
+            {
+                "nickname": "u3",
+                "username": "user3",
+                "id": "1919811",
+                "type": "member"
+            },
+            {
+                "nickname": "u3",
+                "username": "user3",
+                "id": "1919811",
+                "type": "member"
+            }
+        ],
+        "nowuser_type": "owner",
+        "boardcast": [
+            "你好世界"
+        ]
+    }
